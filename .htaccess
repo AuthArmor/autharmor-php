@@ -1,4 +1,0 @@
-RewriteEngine on
-RewriteRule "^auth/autharmor/invite$" "/index.php?p=/invite" [PT]
-RewriteRule "^auth/autharmor/invite/confirm$" "/index.php?p=/invite/confirm" [PT]
-RewriteRule "^auth/autharmor/auth$" "/index.php?p=/auth" [PT]

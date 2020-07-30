@@ -41,6 +41,4 @@ switch($_GET['p']) {
 			echo json_encode($response);
 		}
 		break;
-	default:
-		header("Location: /example/index.php");
 }
