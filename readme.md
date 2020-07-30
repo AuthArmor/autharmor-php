@@ -2,7 +2,7 @@
 
 ## Using the AuthArmor class
 
-Place your AuthArmor API credentials in the `autharmor_creds.php` file then include and instantiate an AuthArmor object:
+Place your AuthArmor API credentials in the `autharmor_creds.php` file then instantiate an AuthArmor object:
 
 ```php
 require('./AuthArmor.php');
