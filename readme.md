@@ -32,7 +32,7 @@ if($api_response->authorized == 'true') {
 $response = $AuthArmor->auth_request("my_auth_profile_id", "Auth Request", "Requesting authorization for mysite.com");
 ```
 
-Your application should maintain a database that ties your user's username to their AuthArmor auth_profile_id. See the `example/Model.php` file for an example implementation.
+Your application should maintain a database that ties your user's username to their AuthArmor `auth_profile_id`. See the `example/Model.php` file for an example implementation.
 
 ## Using with the AuthArmor Javascript Client-side SDK
 
