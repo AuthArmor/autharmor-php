@@ -36,7 +36,7 @@ $response = $AuthArmor->auth_request("my_auth_profile_id", "Auth Request", "Requ
 
 See the `AuthArmor.php` file for a full list of required and optional parameters for the `invite_request()` and `auth_request()` functions. The generic `call()` function can also be used to call any valid endpoint on the AuthArmor API.
 
-Your application should maintain a database that ties your user's username to their AuthArmor `auth_profile_id`. See the `example/Model.php` file for an example implementation.
+Your application should maintain a database that ties your user's username to their AuthArmor `auth_profile_id`. See the `example/Model.php` file for an example implementation using MySQL.
 
 ## Using with the AuthArmor Javascript Client-side SDK
 
