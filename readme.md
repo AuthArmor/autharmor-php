@@ -49,5 +49,5 @@ To support the client-side SDK your application should support the following URL
 
 See the `index.php` file for an example implementation in PHP that supports these endpoints. The `.htaccess` file contains an example configuration for using the Apache web server's mod_rewrite directives to redirect these paths to the `index.php` file.
 
-See the `example/index.php` file for an example implementation of the client-side SDK that uses these endpoints.
+See the `example/index.html` file for an example implementation of the client-side SDK that uses these endpoints.
 
