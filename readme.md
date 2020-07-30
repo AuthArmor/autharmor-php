@@ -2,14 +2,14 @@
 
 ## Using the AuthArmor class
 
-Place your AuthArmor API credentials in autharmor_creds.php then include and instantiate an AuthArmor object.
+Place your AuthArmor API credentials in autharmor_creds.php then include and instantiate an AuthArmor object:
 
 ```php
 require('./AuthArmor.php');
 $AuthArmor = new AuthArmor();
 ```
 
-### Perform an invite to register the user's device
+### Perform an invite
 
 ```php
 $api_response = $AuthArmor->invite_request("myusername", "myreferenceid");
