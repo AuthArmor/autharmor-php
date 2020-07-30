@@ -5,7 +5,7 @@
  *  `username`         VARCHAR(100) NOT NULL,
  *  `auth_profile_id`  VARCHAR(36)  NOT NULL,
  *  PRIMARY KEY (`id`),
- *  INDEX (`username`)
+ *  UNIQUE KEY `username` (`username`)
  * );
  */
 
