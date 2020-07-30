@@ -32,7 +32,7 @@ class AuthArmor {
 	 * Generic function for making any call to the AuthArmor API
 	 * @param string $path AuthArmor API path
 	 * @param stdClass $post JSON Request payload
-	 * @return stdClass JSON result
+	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
 	public function call(string $path, stdClass $post) : stdClass {
 		if(new DateTime() > $this->token_expire) {
@@ -76,7 +76,7 @@ class AuthArmor {
 	/**
 	 * Perform and authorization
 	 * @param string $auth_profile_id The user's auth_profile_id. Store and fetch this from your local database
-	 * @param string $action_name The action you are sending an auth request for. Min length 2, amx length 25
+	 * @param string $action_name The action you are sending an auth request for. Min length 2, max length 25
 	 * @param string $short_msg A short message that will appear in the AuthArmor app
 	 * @param int|null $timeout_in_seconds Optional. Override the timeout for approval
 	 * @param array|null $accepted_auth_methods Optional. Accepted auth methods include biometric, security key, or PIN
