@@ -11,7 +11,7 @@ class AuthArmor {
 	private $token_expire;
 	
 	public function __construct() {
-		require('./autharmor_creds.php');
+		require(__DIR__ . '/autharmor_creds.php');
 		$this->refresh_token();
 	}
 	
