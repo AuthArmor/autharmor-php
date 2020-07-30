@@ -4,8 +4,8 @@
 //   auth/autharmor/invite/confirm
 //   auth/autharmor/auth
 // An .htaccess file for use with Apache that enables these URL rewrites is included.
-require('./AuthArmor.php');
-require('./example/Model.php');
+require('../AuthArmor.php');
+require('./Model.php');
 $AuthArmor = new AuthArmor();
 $MyModel = new Model();
 header('Content-type: application/json');
