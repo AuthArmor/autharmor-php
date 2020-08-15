@@ -20,7 +20,7 @@ switch($_GET['p']) {
 		break;
 	case '/invite/confirm':
 		if($data->nickname) {
-			$api_response = $AuthArmor->auth_request($data->nickname, 'Confirm Setup', 'Please confirm setup MySiteName');
+			$api_response = $AuthArmor->auth_request($data->nickname, 'Confirm Setup', 'Please confirm setup for MySiteName');
 			http_response_code($api_response->http_status);
 			echo json_encode($api_response);
 		}

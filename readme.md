@@ -18,7 +18,7 @@ $api_response = $AuthArmor->invite_request("myusername", "myreferenceid");
 ### Confirm an invite
 
 ```php
-$api_response = $AuthArmor->auth_request("myusername", "Confirm Setup", "Please confirm setup has worked");
+$api_response = $AuthArmor->auth_request("myusername", "Confirm Setup", "Please confirm setup for MySiteName");
 if($api_response->authorized == 'true') {
     // User accepted the confirmation
 } else {
@@ -29,7 +29,7 @@ if($api_response->authorized == 'true') {
 ### Perform an authorization
 
 ```php
-$response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization for mysite.com");
+$response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization MySiteName");
 ```
 
 ### Notes
