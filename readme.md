@@ -29,7 +29,7 @@ if($api_response->authorized == 'true') {
 ### Perform an authorization
 
 ```php
-$response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization MySiteName");
+$response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization for MySiteName");
 ```
 
 ### Notes
