@@ -18,25 +18,23 @@ $api_response = $AuthArmor->invite_request("myusername", "myreferenceid");
 ### Confirm an invite
 
 ```php
-$api_response = $AuthArmor->auth_request("my_auth_profile_id", "Confirm Setup", "Please confirm setup has worked");
+$api_response = $AuthArmor->auth_request("myusername", "Confirm Setup", "Please confirm setup has worked");
 if($api_response->authorized == 'true') {
-    $response = 'Confirmed';
+    // User accepted the confirmation
 } else {
-    $response = 'Declined';
+    // User declined the confirmation or it timed out
 }
 ```
 
 ### Perform an authorization
 
 ```php
-$response = $AuthArmor->auth_request("my_auth_profile_id", "Auth Request", "Requesting authorization for mysite.com");
+$response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization for mysite.com");
 ```
 
 ### Notes
 
 See the `AuthArmor.php` file for a full list of required and optional parameters for the `invite_request()` and `auth_request()` functions. The generic `call()` function can also be used to call any valid endpoint on the AuthArmor API.
-
-Your application should maintain a database that ties your user's username to their AuthArmor `auth_profile_id`. See the `example/Model.php` file for an example implementation using MySQL.
 
 ## Using with the AuthArmor Javascript Client-side SDK
 

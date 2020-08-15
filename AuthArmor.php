@@ -53,7 +53,9 @@ class AuthArmor {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 		
 		$result = json_decode(curl_exec($ch));
+		$result->http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
+		
 		return $result;
 	}
 	
@@ -75,7 +77,7 @@ class AuthArmor {
 	
 	/**
 	 * Perform and authorization
-	 * @param string $auth_profile_id The user's auth_profile_id. Store and fetch this from your local database
+	 * @param string $nickname The user's nickname/username. Any unique identifier
 	 * @param string $action_name The action you are sending an auth request for. Min length 2, max length 25
 	 * @param string $short_msg A short message that will appear in the AuthArmor app
 	 * @param int|null $timeout_in_seconds Optional. Override the timeout for approval
@@ -83,9 +85,9 @@ class AuthArmor {
 	 * @param array|null $client_location_data Optional. Set the location to be displayed in the AuthArmor app
 	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
-	public function auth_request(string $auth_profile_id, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $accepted_auth_methods = null, array $client_location_data = null) : stdClass {
+	public function auth_request(string $nickname, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $accepted_auth_methods = null, array $client_location_data = null) : stdClass {
 		$post = new stdClass();
-		$post->auth_profile_id = $auth_profile_id;
+		$post->nickname = $nickname;
 		$post->action_name = $action_name;
 		$post->short_msg = $short_msg;
 		if($timeout_in_seconds) {
@@ -112,3 +114,4 @@ class AuthArmor {
 		return $this->call('/v1/auth/request', $post);
 	}
 }
+

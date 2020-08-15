@@ -4,6 +4,44 @@
 	<script src="https://cdn.autharmor.com/scripts/autharmor-sdk.js"></script>
 </HEAD>
 <style>
+body {
+	margin: 0;
+	font-family: "Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #fff;
+	background-color: #212329;
+}
+h3 {
+	padding: 20px;
+	margin-bottom: 80px;
+	background-color: #282c34;
+	border-radius: 6px;
+}
+a {
+	color: #39dada;
+	opacity: .7;
+}
+input {
+	margin: 4px;
+}
+input[type=text] {
+	padding: 12px 20px;
+	font-size: 16px;
+	border-radius: 4px;
+	border: 0;
+	background-color: #2d323c;
+	min-width: 300px;
+	color: hsla(0,0%,100%,.7);
+	font-family: "Montserrat";
+}
+input[type=button] {
+	padding: 10px;
+	background-color: #2db4b4;
+	color: #fff;
+	border-radius: 4px;
+	border: 0;
+}
 .content {
 	max-width: 500px;
 	margin: auto;
@@ -26,19 +64,20 @@ const register = async (username) => {
 	console.log("Getting invite QR code and link.");
 	document.getElementById("auth_profile_id").value = invite.auth_profile_id;
 	document.getElementById("qrcode").src = invite.getQRCode();
-	document.getElementById("login_success").style.visibility = "hidden";
-	document.getElementById("qrcode_and_link").style.visibility = "initial";
+	document.getElementById("login_success").style.display = "none";
+	document.getElementById("confirm_success").style.display = "none";
+	document.getElementById("qrcode_and_link").style.display = "inline";
 	document.getElementById("invite_link").href = invite.getInviteLink();
 };
 
-const confirm = async (auth_profile_id) => {
+const confirm = async (username) => {
 	// Confirm an invite
-	console.log("Confirming invite ID:", auth_profile_id);
-	await SDK.invite.confirmInvite(auth_profile_id);
+	console.log("Confirming invite ID:", username);
+	await SDK.invite.confirmInvite(username);
 	console.log("Invite has been confirmed successfully!");
-	document.getElementById("login_success").style.visibility = "hidden";
-	document.getElementById("qrcode_and_link").style.visibility = "hidden";
-	document.getElementById("confirm_success").style.visibility = "initial";
+	document.getElementById("login_success").style.display = "none";
+	document.getElementById("qrcode_and_link").style.display = "none";
+	document.getElementById("confirm_success").style.display = "inline";
 };
 
 const authenticate = async (username) => {
@@ -47,9 +86,9 @@ const authenticate = async (username) => {
 		console.log("Authenticating user:", username);
 		await SDK.auth.authenticate(username);
 		console.log("User authenticated!");
-		document.getElementById("qrcode_and_link").style.visibility = "hidden";
-		document.getElementById("confirm_success").style.visibility = "hidden";
-		document.getElementById("login_success").style.visibility = "initial";
+		document.getElementById("qrcode_and_link").style.display = "none";
+		document.getElementById("confirm_success").style.display = "none";
+		document.getElementById("login_success").style.display = "inline";
 	} catch (err) {
 		console.error("The request was declined or has timed out!", err);
 	}
@@ -57,17 +96,17 @@ const authenticate = async (username) => {
 
 </script>
 <div class="content">
-<h3>AuthArmor Demo</h3>
-<input id="username" type="text" value="" /><br />
-<input id="login" type="button" value="Login" onClick="authenticate(document.getElementById('username').value);" /> <input id="register" type="button" value="Register" onClick="register(document.getElementById('username').value);" /><br />
+<h3>AuthArmor PHP Demo</h3>
+<input id="username" type="text" value="Username" onfocus="this.value='';" /><br />
+<input id="login" type="button" value="Login" onclick="authenticate(document.getElementById('username').value);" /> <input id="register" type="button" value="Register" onclick="register(document.getElementById('username').value);" /><br />
 <br />
 <br />
 
-<div id="login_success" style="visibility: hidden;">
+<div id="login_success" style="display: none;">
 You were logged in successfully!
 </div>
 
-<div id="qrcode_and_link" style="visibility: hidden;">
+<div id="qrcode_and_link" style="display: none;">
 <input id="auth_profile_id" type="hidden" value="" />
 <img id="qrcode" src="" /><br />
 <br />
@@ -77,13 +116,14 @@ Use the AuthArmor mobile app to scan this QR Code<br />
 <br />
 Once enrolled, press the Confirm Invite button<br />
 <br />
-<input id="confirm_invite" type="button" value="Confirm Invite" onClick="confirm(document.getElementById('auth_profile_id').value);" />
+<input id="confirm_invite" type="button" value="Confirm Invite" onclick="confirm(document.getElementById('username').value);" />
 </div>
 
-<div id="confirm_success" style="visibility: hidden;">
+<div id="confirm_success" style="display: none;">
 Your invite has been confirmed!
 </div>
 
 </div>
 </BODY>
 </HTML>
+
