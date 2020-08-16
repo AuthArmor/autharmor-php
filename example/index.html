@@ -4,7 +4,9 @@
 <script src="https://cdn.autharmor.com/scripts/autharmor-sdk.js"></script>
 <style>
 body {
-	margin: 0;
+	max-width: 500px;
+	margin: auto;
+	text-align: center;
 	background-color: #212329;
 	font-family: "Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -42,12 +44,6 @@ input[type=button] {
 	color: #fff;
 	font-family: "Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 }
-.content {
-	max-width: 500px;
-	margin: auto;
-	text-align: center;
-	color: 
-}
 </style>
 </HEAD>
 <BODY>
@@ -58,27 +54,40 @@ const SDK = new AuthArmorSDK("https://myapidomain/");
 
 const register = async (username) => {
 	// Generate a new invite
-	const invite = await SDK.invite.generateInviteCode({
-		nickname: username, // Specify the invite's nickname
-		referenceId: "myreference" // Specify a reference ID for the invite
-	});
-	console.log("Getting invite QR code and link.");
-	document.getElementById("auth_profile_id").value = invite.auth_profile_id;
-	document.getElementById("qrcode").src = invite.getQRCode();
-	document.getElementById("login_success").style.display = "none";
-	document.getElementById("confirm_success").style.display = "none";
-	document.getElementById("qrcode_and_link").style.display = "inline";
-	document.getElementById("invite_link").href = invite.getInviteLink();
+	try {
+		const invite = await SDK.invite.generateInviteCode({
+			nickname: username, // Specify the invite's nickname
+			referenceId: "myreference" // Specify a reference ID for the invite
+		});
+		console.log("Getting invite QR code and link.");
+		console.log("QR code base64 data: ", invite.getQRCode());
+		console.log("Full invite response: ", invite);
+		document.getElementById("auth_profile_id").value = invite.auth_profile_id;
+		document.getElementById("qrcode").src = invite.getQRCode();
+		document.getElementById("status_message").style.display = "none";
+		document.getElementById("qrcode_and_link").style.display = "inline";
+		document.getElementById("invite_link").href = invite.getInviteLink();
+	} catch(err) {
+		console.log("An error has occurred!", err.errorMessage);
+		document.getElementById("status_message").innerHTML = err.errorMessage;
+		document.getElementById("status_message").style.display = "inline";
+	}
 };
 
 const confirm = async (username) => {
 	// Confirm an invite
-	console.log("Confirming invite ID:", username);
-	await SDK.invite.confirmInvite(username);
-	console.log("Invite has been confirmed successfully!");
-	document.getElementById("login_success").style.display = "none";
-	document.getElementById("qrcode_and_link").style.display = "none";
-	document.getElementById("confirm_success").style.display = "inline";
+	try {
+		console.log("Confirming invite ID:", username);
+		await SDK.invite.confirmInvite(username);
+		console.log("Invite has been confirmed successfully!");
+		document.getElementById("qrcode_and_link").style.display = "none";
+		document.getElementById("status_message").innerHTML = "Your invite has been confirmed!";
+		document.getElementById("status_message").style.display = "inline";
+	} catch (err) {
+		console.error("The request was declined or has timed out!", err.errorMessage);
+		document.getElementById("status_message").innerHTML = err.errorMessage;
+		document.getElementById("status_message").style.display = "inline";
+	}
 };
 
 const authenticate = async (username) => {
@@ -88,23 +97,23 @@ const authenticate = async (username) => {
 		await SDK.auth.authenticate(username);
 		console.log("User authenticated!");
 		document.getElementById("qrcode_and_link").style.display = "none";
-		document.getElementById("confirm_success").style.display = "none";
-		document.getElementById("login_success").style.display = "inline";
+		document.getElementById("status_message").innerHTML = "You were logged in successfully!";
+		document.getElementById("status_message").style.display = "inline";
 	} catch (err) {
-		console.error("The request was declined or has timed out!", err);
+		console.error("The request was declined or has timed out!", err.errorMessage);
+		document.getElementById("status_message").innerHTML = err.errorMessage;
+		document.getElementById("status_message").style.display = "inline";
 	}
 };
 
 </script>
-<div class="content">
 <h3>AuthArmor PHP Demo</h3>
 <input id="username" type="text" value="Username" onfocus="this.value='';" /><br />
 <input id="login" type="button" value="Login" onclick="authenticate(document.getElementById('username').value);" /> <input id="register" type="button" value="Register" onclick="register(document.getElementById('username').value);" /><br />
 <br />
 <br />
 
-<div id="login_success" style="display: none;">
-You were logged in successfully!
+<div id="status_message" style="display: none;">
 </div>
 
 <div id="qrcode_and_link" style="display: none;">
@@ -120,11 +129,6 @@ Once enrolled, press the Confirm Invite button<br />
 <input id="confirm_invite" type="button" value="Confirm Invite" onclick="confirm(document.getElementById('username').value);" />
 </div>
 
-<div id="confirm_success" style="display: none;">
-Your invite has been confirmed!
-</div>
-
-</div>
 </BODY>
 </HTML>
 

@@ -26,8 +26,8 @@ switch($_GET['p']) {
 		}
 		break;
 	case '/auth':
-		if($data->username) {
-			$api_response = $AuthArmor->auth_request($data->username, 'Auth Request', 'Requesting authorization for MySiteName');
+		if($data->nickname) {
+			$api_response = $AuthArmor->auth_request($data->nickname, 'Auth Request', 'Requesting authorization for MySiteName');
 			http_response_code($api_response->http_status);
 			echo json_encode($api_response);
 		}
