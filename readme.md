@@ -11,11 +11,15 @@ $AuthArmor = new AuthArmor();
 
 ### Perform an invite
 
+Invite a user to register their account with the AuthArmor app:
+
 ```php
 $api_response = $AuthArmor->invite_request("myusername", "myreferenceid");
 ```
 
 ### Confirm an invite
+
+After inviting a user you should send an auth request to verify they have configured their app correctly:
 
 ```php
 $api_response = $AuthArmor->auth_request("myusername", "Confirm Setup", "Please confirm setup for MySiteName");
@@ -31,13 +35,13 @@ if($api_response->authorized == 'true') {
 ```php
 $api_response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization for MySiteName");
 if($api_response->authorized == 'true') {
-    // User accepted the authorization
+    // User accepted the auth
 } else {
-    // User declined the authorization or it timed out
+    // User declined the auth or it timed out
 }
 ```
 
-More actions can be performed based on the values returned in the `$api_response`.
+You can perform more actions based on the values that are returned in the `$api_response`. For more information see the [AuthArmor API documentation](https://docs.autharmor.com/api/).
 
 ### Notes
 
