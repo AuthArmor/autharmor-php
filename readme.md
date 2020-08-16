@@ -31,9 +31,9 @@ if($api_response->authorized == 'true') {
 ```php
 $api_response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization for MySiteName");
 if($api_response->authorized == 'true') {
-    // Authorization was accepted
+    // User accepted the authorization
 } else {
-    // Authorization was declined or it timed out
+    // User declined the authorization or it timed out
 }
 ```
 
