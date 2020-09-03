@@ -63,14 +63,16 @@ class AuthArmor {
 	 * Invite user
 	 * @param string $nickname The user's nickname/username
 	 * @param string|null $reference_id Optional. A reference ID for the user
+	 * @param bool $reset_and_reinvite Optional. Reset and re-invite the user
 	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
-	public function invite_request(string $nickname, string $reference_id = null) : stdClass {
+	public function invite_request(string $nickname, string $reference_id = null, bool $reset_and_reinvite = false) : stdClass {
 		$post = new stdClass();
 		$post->nickname = $nickname;
 		if($reference_id) {
 			$post->reference_id = $reference_id;
 		}
+		$post->reset_and_reinvite = $reset_and_reinvite;
 		
 		return $this->call('/v1/invite/request', $post);
 	}
