@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <TITLE>Auth Armor PHP Demo</TITLE>
-<script src="https://cdn.autharmor.com/scripts/autharmor-sdk.js"></script>
+<script src="https://cdn.autharmor.com/scripts/autharmor-jsclient-sdk/v2.0.0/autharmor-jsclient-sdk_v2.0.0.js"></script>
 <style>
 body {
 	max-width: 500px;
@@ -50,7 +50,10 @@ input[type=button] {
 <script>
 
 // Initialize the SDK
-const SDK = new AuthArmorSDK("https://myapidomain/");
+const SDK = new AuthArmorSDK({
+  endpointBasePath: "https://myapidomain/", // specify your backend's url
+  polling: true // Specify whether you'd like to receive auth status updates via WebSockets (default) or HTTP polling
+});
 
 const register = async (username) => {
 	// Generate a new invite
@@ -94,7 +97,12 @@ const authenticate = async (username) => {
 	// Perform an authentication
 	try {
 		console.log("Authenticating user:", username);
-		await SDK.auth.authenticate(username);
+		await SDK.authenticate({
+			// auth info goes here
+			nickname: username,
+			sendPush: true,
+			shortMessage: "Hello"
+		});
 		console.log("User authenticated!");
 		document.getElementById("qrcode_and_link").style.display = "none";
 		document.getElementById("status_message").innerHTML = "You were logged in successfully!";
@@ -131,4 +139,3 @@ Once enrolled, press the Confirm Invite button<br />
 
 </BODY>
 </HTML>
-

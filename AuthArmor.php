@@ -35,6 +35,7 @@ class AuthArmor {
 	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
 	public function call(string $path, stdClass $post) : stdClass {
+		error_log("post to autharmor api: ".print_r(json_encode($post), true), 3, "/tmp/autharmor-errors.log");
 		if(new DateTime() > $this->token_expire) {
 			$this->refresh_token();
 		}
@@ -60,6 +61,32 @@ class AuthArmor {
 	}
 	
 	/**
+	 * Generic function for making GET calls to the AuthArmor API
+	 * @param string $path AuthArmor API path
+	 * @return stdClass Return the JSON result from the AuthArmor API
+	 */
+	public function call_get(string $path) : stdClass {
+		if(new DateTime() > $this->token_expire) {
+			$this->refresh_token();
+		}
+		$path = 'https://api.autharmor.com'.$path;
+		$headers = array(
+			'accept: text/plain',
+			'Authorization: Bearer '.$this->token->access_token
+		);
+		
+		$ch = curl_init($path);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		
+		$result = json_decode(curl_exec($ch));
+		$result->http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		
+		return $result;
+	}
+	
+	/**
 	 * Invite user
 	 * @param string $nickname The user's nickname/username
 	 * @param string|null $reference_id Optional. A reference ID for the user
@@ -74,7 +101,7 @@ class AuthArmor {
 		}
 		$post->reset_and_reinvite = $reset_and_reinvite;
 		
-		return $this->call('/v1/invite/request', $post);
+		return $this->call('/v2/invite/request', $post);
 	}
 	
 	/**
@@ -84,10 +111,10 @@ class AuthArmor {
 	 * @param string $short_msg A short message that will appear in the AuthArmor app
 	 * @param int|null $timeout_in_seconds Optional. Override the timeout for approval
 	 * @param array|null $accepted_auth_methods Optional. Accepted auth methods include biometric, security key, or PIN
-	 * @param array|null $client_location_data Optional. Set the location to be displayed in the AuthArmor app
+	 * @param array|null $origin_location_data Optional. Set the location to be displayed in the AuthArmor app
 	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
-	public function auth_request(string $nickname, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $accepted_auth_methods = null, array $client_location_data = null) : stdClass {
+	public function auth_request(string $nickname, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $accepted_auth_methods = null, array $origin_location_data = null) : stdClass {
 		$post = new stdClass();
 		$post->nickname = $nickname;
 		$post->action_name = $action_name;
@@ -95,25 +122,57 @@ class AuthArmor {
 		if($timeout_in_seconds) {
 			$post->timeout_in_seconds = $timeout_in_seconds;
 		}
-		if($accepted_auth_methods) {
-			$accepted_auth_methods_count = 0;
-			foreach($accepted_auth_methods as $accepted_auth_method) {
-				$post->accepted_auth_methods[$accepted_auth_methods_count]->name = $accepted_auth_method['name'];
-				$rules_count = 0;
-				foreach($accepted_auth_methods[$accepted_auth_methods_count]['rules'] as $name => $value) {
-					$post->accepted_auth_methods[$accepted_auth_methods_count]->rules[$rules_count]->name = $name;
-					$post->accepted_auth_methods[$accepted_auth_methods_count]->rules[$rules_count]->value = $value;
-					$rules_count++;
-				}
-				$accepted_auth_methods_count++;
-			}
-		}
-		if($client_location_data) {
-			$post->client_location_data->latitude = $client_location_data['latitude'];
-			$post->client_location_data->longitude = $client_location_data['longitude'];
+		if($origin_location_data) {
+			$post->origin_location_data->latitude = $origin_location_data['latitude'];
+			$post->origin_location_data->longitude = $origin_location_data['longitude'];
 		}
 		
-		return $this->call('/v1/auth/request', $post);
+		return $this->call('/v2/auth/request', $post);
+	}
+
+	/**
+	 * Perform and authorization asynchronously
+	 * @param string $nickname The user's nickname/username. Any unique identifier
+	 * @param string $action_name The action you are sending an auth request for. Min length 2, max length 25
+	 * @param string $short_msg A short message that will appear in the AuthArmor app
+	 * @param int|null $timeout_in_seconds Optional. Override the timeout for approval
+	 * @param array|null $origin_location_data Optional. Set the location to be displayed in the AuthArmor app
+	 * @param bool|null $send_push. Whether or not to send a push message
+	 * @param bool|null $use_visual_verify. Include visual verify code
+	 * @return stdClass Return the JSON result from the AuthArmor API
+	 */
+	public function auth_request_async(string $nickname, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $origin_location_data = null, bool $send_push = true, bool $use_visual_verify = null) : stdClass {
+		$post = new stdClass();
+		$post->nickname = $nickname;
+		$post->action_name = $action_name;
+		$post->short_msg = $short_msg;
+		if($timeout_in_seconds) {
+			$post->timeout_in_seconds = $timeout_in_seconds;
+		}
+		if($origin_location_data) {
+			$post->origin_location_data->latitude = $origin_location_data['latitude'];
+			$post->origin_location_data->longitude = $origin_location_data['longitude'];
+			$post->origin_location_data->ipAddress = $origin_location_data['ipAddress'];
+		} else {
+			$post->origin_location_data->ipAddress = $_SERVER['REMOTE_ADDR'];
+		}
+		if($send_push) {
+			$post->send_push = $send_push;
+		}
+		if($use_visual_verify) {
+			$post->use_visual_verify = $use_visual_verify;
+		}
+		
+		return $this->call('/v2/auth/request/async', $post);
+	}
+
+	/**
+	 * Get authorization information
+	 * @param string $auth_request_id The auth_request_id to get info for
+	 * @return stdClass Return the JSON result from the AuthArmor API
+	 */
+	public function get_auth_info(string $auth_request_id) {
+		return $this->call_get('/v2/auth/request/'.$auth_request_id);
+		error_log("/authenticate/status path: ".print_r('/v2/auth/request/'.$auth_request_id, true), 3, "/tmp/autharmor-errors.log");
 	}
 }
-
