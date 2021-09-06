@@ -22,7 +22,7 @@ $api_response = $AuthArmor->invite_request("myusername", "myreferenceid");
 After inviting a user you should send an auth request to verify they have configured their app correctly:
 
 ```php
-$api_response = $AuthArmor->auth_request("myusername", "Confirm Setup", "Please confirm setup for MySiteName");
+$api_response = $AuthArmor->auth_request_async("myusername", "Confirm Setup", "Please confirm setup for MySiteName");
 if($api_response->authorized == 'true') {
     // User accepted the confirmation
 } else {
@@ -33,7 +33,7 @@ if($api_response->authorized == 'true') {
 ### Perform an authorization
 
 ```php
-$api_response = $AuthArmor->auth_request("myusername", "Auth Request", "Requesting authorization for MySiteName");
+$api_response = $AuthArmor->auth_request_async("myusername", "Auth Request", "Requesting authorization for MySiteName");
 if($api_response->authorized == 'true') {
     // User accepted the auth
 } else {
