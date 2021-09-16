@@ -35,7 +35,6 @@ class AuthArmor {
 	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
 	public function call(string $path, stdClass $post) : stdClass {
-		error_log("post to autharmor api: ".print_r(json_encode($post), true), 3, "/tmp/autharmor-errors.log");
 		if(new DateTime() > $this->token_expire) {
 			$this->refresh_token();
 		}
@@ -173,6 +172,5 @@ class AuthArmor {
 	 */
 	public function get_auth_info(string $auth_request_id) {
 		return $this->call_get('/v2/auth/request/'.$auth_request_id);
-		error_log("/authenticate/status path: ".print_r('/v2/auth/request/'.$auth_request_id, true), 3, "/tmp/autharmor-errors.log");
 	}
 }
