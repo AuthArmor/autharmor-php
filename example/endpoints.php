@@ -6,7 +6,6 @@
 // An .htaccess file for use with Apache that enables these URL rewrites is included.
 require('../AuthArmor.php');
 $AuthArmor = new AuthArmor();
-//$MyModel = new Model();
 header('Content-type: application/json');
 $request = file_get_contents('php://input');
 $data = json_decode(utf8_encode($request));
@@ -25,7 +24,6 @@ switch($_GET['p']) {
 		if($data->nickname) {
 			// Get the auth_profile_id tied to this username from your DB
 			//$auth_profile_id = $MyModel->getAuthProfileIdForUsername($data->username);
-			error_log("/authenticate data: ".print_r($data, true), 3, "/tmp/autharmor-errors.log");
 			$api_response = $AuthArmor->auth_request_async($data->nickname, 'Auth Request', $data->short_msg, '15');
 			http_response_code($api_response->http_status);
 			echo json_encode($api_response);
@@ -36,7 +34,6 @@ switch($_GET['p']) {
 		if($guid) {
 			// Get auth info by guid
 			$api_response = $AuthArmor->get_auth_info($guid);
-			error_log("/authenticate/status api_response: ".print_r($api_response, true), 3, "/tmp/autharmor-errors.log");
 			while($api_response->status_name == 'Pending') {
 				$api_response = $AuthArmor->get_auth_info($guid);
 				sleep(1);
