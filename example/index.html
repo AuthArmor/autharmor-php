@@ -2,6 +2,7 @@
 <HEAD>
 <TITLE>Auth Armor PHP Demo</TITLE>
 <script src="https://cdn.autharmor.com/scripts/autharmor-jsclient-sdk/v2.0.0/autharmor-jsclient-sdk_v2.0.0.js"></script>
+<script src="/VanillaQR.js-master/VanillaQR.min.js"></script>
 <style>
 body {
 	max-width: 500px;
@@ -51,7 +52,7 @@ input[type=button] {
 
 // Initialize the SDK
 const SDK = new AuthArmorSDK({
-  endpointBasePath: "https://myapidomain/", // specify your backend's url
+  endpointBasePath: "https://phpdemo.autharmor.com/auth/autharmor", // specify your backend's url
   polling: true // Specify whether you'd like to receive auth status updates via WebSockets (default) or HTTP polling
 });
 
@@ -63,10 +64,15 @@ const register = async (username) => {
 			referenceId: "myreference" // Specify a reference ID for the invite
 		});
 		console.log("Getting invite QR code and link.");
-		console.log("QR code base64 data: ", invite.getQRCode());
-		console.log("Full invite response: ", invite);
+		console.log("invite is", invite);
+		//console.log("QR code base64 data: ", invite.getQRCode());
+		//console.log("Full invite response: ", invite);
+		var qr = new VanillaQR({ url: invite.qr_code_data, colorLight: "#202020", colorDark: "#2CB2B5" });
+		var imageElement = qr.toImage("png");
+		//document.body.appendChild(imageElement);
 		document.getElementById("auth_profile_id").value = invite.auth_profile_id;
-		document.getElementById("qrcode").src = invite.getQRCode();
+		//document.getElementById("qrcode").src = invite.getQRCode();
+		document.getElementById("qrcode").append(imageElement);
 		document.getElementById("status_message").style.display = "none";
 		document.getElementById("qrcode_and_link").style.display = "inline";
 		document.getElementById("invite_link").href = invite.getInviteLink();
@@ -81,7 +87,12 @@ const confirm = async (username) => {
 	// Confirm an invite
 	try {
 		console.log("Confirming invite ID:", username);
-		await SDK.invite.confirmInvite(username);
+		await SDK.authenticate({
+			// auth info goes here
+			nickname: username,
+			sendPush: true,
+			shortMessage: "Please confirm"
+		});
 		console.log("Invite has been confirmed successfully!");
 		document.getElementById("qrcode_and_link").style.display = "none";
 		document.getElementById("status_message").innerHTML = "Your invite has been confirmed!";
@@ -101,11 +112,12 @@ const authenticate = async (username) => {
 			// auth info goes here
 			nickname: username,
 			sendPush: true,
-			shortMessage: "Hello"
+			shortMessage: "Hello",
+			timeout_in_seconds: 15
 		});
 		console.log("User authenticated!");
 		document.getElementById("qrcode_and_link").style.display = "none";
-		document.getElementById("status_message").innerHTML = "You were logged in successfully!";
+		//document.getElementById("status_message").innerHTML = "You were logged in successfully!";
 		document.getElementById("status_message").style.display = "inline";
 	} catch (err) {
 		console.error("The request was declined or has timed out!", err.errorMessage);
@@ -122,11 +134,12 @@ const authenticate = async (username) => {
 <br />
 
 <div id="status_message" style="display: none;">
+
 </div>
 
 <div id="qrcode_and_link" style="display: none;">
 <input id="auth_profile_id" type="hidden" value="" />
-<img id="qrcode" src="" /><br />
+	<p style="display:inline;" id="qrcode"></p><br />
 <br />
 Use the AuthArmor mobile app to scan this QR Code<br />
 -or-<br />
@@ -135,6 +148,7 @@ Use the AuthArmor mobile app to scan this QR Code<br />
 Once enrolled, press the Confirm Invite button<br />
 <br />
 <input id="confirm_invite" type="button" value="Confirm Invite" onclick="confirm(document.getElementById('username').value);" />
+<br />
 </div>
 
 </BODY>
