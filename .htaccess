@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule "^auth/autharmor/invite$" "/example/endpoints.php?p=/invite" [PT]
+RewriteRule "^auth/autharmor/authenticate/status/([^/]*)$" "/example/endpoints.php?p=/authenticate/status&guid=$1" [PT]
+RewriteRule "^auth/autharmor/authenticate$" "/example/endpoints.php?p=/authenticate" [PT]
+RewriteRule "^loggedin$" "/example/endpoints.php?p=/loggedin" [PT]
