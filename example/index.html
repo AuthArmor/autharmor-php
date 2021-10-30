@@ -2,7 +2,6 @@
 <HEAD>
 <TITLE>Auth Armor PHP Demo</TITLE>
 <script src="https://cdn.autharmor.com/scripts/autharmor-jsclient-sdk/v2.0.0/autharmor-jsclient-sdk_v2.0.0.js"></script>
-<script src="/VanillaQR.js-master/VanillaQR.min.js"></script>
 <style>
 body {
 	max-width: 500px;
@@ -65,14 +64,9 @@ const register = async (username) => {
 		});
 		console.log("Getting invite QR code and link.");
 		console.log("invite is", invite);
-		//console.log("QR code base64 data: ", invite.getQRCode());
-		//console.log("Full invite response: ", invite);
-		var qr = new VanillaQR({ url: invite.qr_code_data, colorLight: "#202020", colorDark: "#2CB2B5" });
-		var imageElement = qr.toImage("png");
-		//document.body.appendChild(imageElement);
+		console.log("QR code base64 data: ", invite.getQRCode());
 		document.getElementById("auth_profile_id").value = invite.auth_profile_id;
-		//document.getElementById("qrcode").src = invite.getQRCode();
-		document.getElementById("qrcode").append(imageElement);
+		document.getElementById("qrcode").src = invite.getQRCode();
 		document.getElementById("status_message").style.display = "none";
 		document.getElementById("qrcode_and_link").style.display = "inline";
 		document.getElementById("invite_link").href = invite.getInviteLink();

@@ -109,11 +109,10 @@ class AuthArmor {
 	 * @param string $action_name The action you are sending an auth request for. Min length 2, max length 25
 	 * @param string $short_msg A short message that will appear in the AuthArmor app
 	 * @param int|null $timeout_in_seconds Optional. Override the timeout for approval
-	 * @param array|null $accepted_auth_methods Optional. Accepted auth methods include biometric, security key, or PIN
 	 * @param array|null $origin_location_data Optional. Set the location to be displayed in the AuthArmor app
 	 * @return stdClass Return the JSON result from the AuthArmor API
 	 */
-	public function auth_request(string $nickname, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $accepted_auth_methods = null, array $origin_location_data = null) : stdClass {
+	public function auth_request(string $nickname, string $action_name, string $short_msg, int $timeout_in_seconds = null, array $origin_location_data = null) : stdClass {
 		$post = new stdClass();
 		$post->nickname = $nickname;
 		$post->action_name = $action_name;
@@ -124,6 +123,7 @@ class AuthArmor {
 		if($origin_location_data) {
 			$post->origin_location_data->latitude = $origin_location_data['latitude'];
 			$post->origin_location_data->longitude = $origin_location_data['longitude'];
+			$post->origin_location_data->ip_address = $origin_location_data['ip_address'];
 		}
 		
 		return $this->call('/v2/auth/request', $post);
@@ -151,9 +151,9 @@ class AuthArmor {
 		if($origin_location_data) {
 			$post->origin_location_data->latitude = $origin_location_data['latitude'];
 			$post->origin_location_data->longitude = $origin_location_data['longitude'];
-			$post->origin_location_data->ipAddress = $origin_location_data['ipAddress'];
+			$post->origin_location_data->ip_address = $origin_location_data['ip_address'];
 		} else {
-			$post->origin_location_data->ipAddress = $_SERVER['REMOTE_ADDR'];
+			$post->origin_location_data->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
 		if($send_push) {
 			$post->send_push = $send_push;

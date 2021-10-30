@@ -24,7 +24,7 @@ switch($_GET['p']) {
 		if($data->nickname) {
 			// Get the auth_profile_id tied to this username from your DB
 			//$auth_profile_id = $MyModel->getAuthProfileIdForUsername($data->username);
-			$api_response = $AuthArmor->auth_request_async($data->nickname, 'Auth Request', $data->short_msg, '15');
+			$api_response = $AuthArmor->auth_request_async($data->nickname, 'Auth Request', $data->short_msg, '60');
 			http_response_code($api_response->http_status);
 			echo json_encode($api_response);
 		}
