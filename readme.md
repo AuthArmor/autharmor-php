@@ -37,7 +37,7 @@ Using PHP configuration files: If you have access to the PHP configuration files
 
 ```code
 env.AUTHARMOR_CLIENT_ID = xxxxxx-xxxx-xxxx-xxxx-xxxxxxxx
-env.AUTHARMOR_CLIENT_SECRET = kihVSGzLTxxxxxxxxxxxxxxxxxxxxxxxx
+env.AUTHARMOR_CLIENT_SECRET = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 env.AUTHARMOR_WEBAUTHN_CLIENT_ID = xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx
 env.AUTHARMOR_API_REG_REDIRECT_URL = https://<WEBSITE_REDIRECT_URL>
 env.AUTHARMOR_REDIRECT_URL = https://<WEBSITE_REDIRECT_URL>
