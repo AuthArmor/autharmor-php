@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script>
+			$(document).ready(function () {
+				$("form").bind("keypress", function (e) {  
+					if (e.keyCode == 13) {  
+						return false;  
+					}  
+				}); 
+			    $(".submit").click(function (event) {
+			        event.preventDefault();
+			    	var button = $(this);
+			    	var main_wrapper = $(this).closest('.form_main');
+			        var form = $(this).closest('form')[0];
+			        var data = new FormData(form); // Create FormData object 
+			        var flag = $("#flag", main_wrapper).val();
+			        $(button).prop("disabled", true); // disabled the submit button
+			        $('.response-data', main_wrapper).remove();
+			        $.ajax({
+			            type: "POST",
+			            url: "ajax-calls.php",
+			            data: data,
+			            processData: false,
+			            contentType: false,
+			            success: function (data) {
+			                $( form ).after( "<div class='response-data'>"+data+"</div>" );
+			                $(button).prop("disabled", false);
+			            },
+			            error: function (e) {
+			                $( form ).after( "<div class='response-data'>"+e.responseText+"</div>" );
+			                $(button).prop("disabled", false);
+			            }
+			        });
+			    });
+			});
+		</script>
+	</head>
+	<body>
+		<div class="get_users_main form_main">
+			<h1>Users Demo</h1>
+			<h2>Get Users</h2>
+			<form name="get_users_form" id="get_users_form" method="post">
+				<input type="hidden" name="flag" id="flag" value="get_users">
+				<input type="button" class="submit" name="submit" id="submit" value="Get Users">
+			</form>
+		</div>
+		<div class="get_user_by_id_main form_main">
+			<h2>Get User By Id</h2>
+			<form name="get_user_by_id_form" id="get_user_by_id_form" method="post">
+				<input type="hidden" name="flag" id="flag" value="get_user_by_id">
+				<label for="user_id">User ID</label>
+				<input type="text" name="user_id" id="user_id">
+				<br>
+				<br>
+				<input type="button" class="submit" name="submit" id="submit" value="Submit">
+			</form>
+		</div>
+		<div class="get_auth_history_main form_main">
+			<h2>Get Auth History for User</h2>
+			<form name="get_auth_history_form" id="get_auth_history_form" method="post">
+				<input type="hidden" name="flag" id="flag" value="get_auth_history">
+				<label for="user_id">User ID</label>
+				<input type="text" name="user_id" id="user_id">
+				<br>
+				<br>
+				<input type="button" class="submit" name="submit" id="Submit" value="Submit">
+			</form>
+		</div>
+	</body>
+</html>
