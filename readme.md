@@ -1,5 +1,5 @@
 
-# AuthArmor PHP SDK
+# AuthArmor PHP SDK V3
 
 You can integrate the AuthArmor PHP SDK into your website by installing the package: 
 
