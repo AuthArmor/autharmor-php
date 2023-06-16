@@ -1,5 +1,5 @@
 trigger:
-- main
+- master
 
 variables:
   # Root folder under which your composer.json file is available.
