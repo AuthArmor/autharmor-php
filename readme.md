@@ -45,6 +45,8 @@ env.AUTHARMOR_API_TIMEOUT = 300
 env.AUTHARMOR_API_LOG_ENABLE = 1
 ```
 
+Please note that these methods set environment variables specifically for PHP. They may not be accessible by other applications or processes running on the server. If you need to set environment variables for the entire server or system, you'll need to use the appropriate methods provided by your operating system or hosting environment.
+
 # 🚀 Usage
 
 ## Initializing the SDK

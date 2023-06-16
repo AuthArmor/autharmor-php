@@ -1,6 +1,6 @@
 <?php 
 
-require_once( '../Main.php' );
+require_once( 'Main.php' );
 
 /**
  * *****************************************
