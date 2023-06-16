@@ -16,7 +16,7 @@ if( !class_exists( 'AuthArmorUsersAuthenticator' ) ) {
 		 * @param    	$params|array
 		 * @return 		$result|array
 		 */
-		public function new_user_register_start( $params = array() ) {
+		public static function new_user_register_start( $params = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
@@ -37,7 +37,7 @@ if( !class_exists( 'AuthArmorUsersAuthenticator' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function existing_user_register_start( $user_id = '', $params = array(), $headers = array() ) {
+		public static function existing_user_register_start( $user_id = '', $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$api_url = AUTHARMOR_API_URL.'/v3/users/'.$user_id.'/authenticator/register/start';

@@ -15,7 +15,7 @@ if( !class_exists( 'AuthArmorLogs' ) ) {
 		 * Api Version : V3
 		 * @param 		$message|string
 		 */
-		public function generate_log( $message ) {
+		public static function generate_log( $message ) {
 			if( is_array( $message ) ) { 
 	            $message = json_encode( $message ); 
 	        } 

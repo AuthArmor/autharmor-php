@@ -16,7 +16,7 @@ if( !class_exists( 'AuthAuthenticator' ) ) {
 		 * @param    	$params|array
 		 * @return 		$result|array
 		 */
-		public function auth_request_start( $params = array() ) {
+		public static function auth_request_start( $params = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
@@ -36,7 +36,7 @@ if( !class_exists( 'AuthAuthenticator' ) ) {
 		 * @param    	$params|array 
 		 * @return 		$result|array
 		 */
-		public function validate_authenticator_auth_token( $params = array() ) {
+		public static function validate_authenticator_auth_token( $params = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
