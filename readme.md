@@ -52,7 +52,7 @@ Please note that these methods set environment variables specifically for PHP. T
 ## Initializing the SDK
 You need to include ```Main.php``` file in your code file where you building the logic for registartion and login.
 
-i.e: ```require_once( '../Main.php' );```
+i.e: ```require_once( '<YOUR_FILE_PATH>/sdk/Main.php' );```
 
 ## Authenticator App Register
 
