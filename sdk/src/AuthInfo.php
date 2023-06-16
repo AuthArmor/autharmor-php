@@ -17,7 +17,7 @@ if( !class_exists( 'AuthInfo' ) ) {
 		 * @param    	$auth_request_id|string
 		 * @return 		$result|array
 		 */
-		public function get_auth_info( $auth_request_id = '' ) {
+		public static function get_auth_info( $auth_request_id = '' ) {
 
 			global $auth_armor_main;		
 			$api_url = AUTHARMOR_API_URL.'/v3/auth/'.$auth_request_id;

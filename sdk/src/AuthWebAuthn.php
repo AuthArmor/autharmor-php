@@ -17,7 +17,7 @@ if( !class_exists( 'AuthWebAuthn' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function auth_request_start( $params = array(), $headers = array() ) {
+		public static function auth_request_start( $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
@@ -39,7 +39,7 @@ if( !class_exists( 'AuthWebAuthn' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function auth_request_finish( $params = array(), $headers = array() ) {
+		public static function auth_request_finish( $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
@@ -59,7 +59,7 @@ if( !class_exists( 'AuthWebAuthn' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function validate_webauthn_auth_token( $params = array(), $headers = array() ) {
+		public static function validate_webauthn_auth_token( $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$args = array();

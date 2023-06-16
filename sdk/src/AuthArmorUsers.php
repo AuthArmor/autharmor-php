@@ -19,7 +19,7 @@ if( !class_exists( 'AuthArmorUsers' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function update_user( $user_id = '', $params = array(), $headers = array() ) {
+		public static function update_user( $user_id = '', $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$api_url = AUTHARMOR_API_URL.'/v3/users/'.$user_id;
@@ -48,7 +48,7 @@ if( !class_exists( 'AuthArmorUsers' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function get_users( $headers = array(), $query_string = '' ) {
+		public static function get_users( $headers = array(), $query_string = '' ) {
 
 			global $auth_armor_main;
 			$api_url = AUTHARMOR_API_URL.'/v3/users';
@@ -70,7 +70,7 @@ if( !class_exists( 'AuthArmorUsers' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function get_user_by_id( $user_id = '', $headers = array() ) {
+		public static function get_user_by_id( $user_id = '', $headers = array() ) {
 
 			global $auth_armor_main;		
 			$api_url = AUTHARMOR_API_URL.'/v3/users/'.$user_id;
@@ -99,7 +99,7 @@ if( !class_exists( 'AuthArmorUsers' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function get_auth_history_by_userid( $user_id = '', $headers = array(), $query_string = '' ) {
+		public static function get_auth_history_by_userid( $user_id = '', $headers = array(), $query_string = '' ) {
 
 			global $auth_armor_main;
 			$api_url = AUTHARMOR_API_URL.'/v3/users/'.$user_id.'/auth_history';

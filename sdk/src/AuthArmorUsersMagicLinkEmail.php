@@ -20,7 +20,7 @@ if( !class_exists( 'AuthArmorUsersMagicLinkEmail' ) ) {
 		 * user through validate_magiclink_registration_token function.
 		 * You need to pass the registration_validation_token in parameters when you validate the user through the MagicLink Email method. 
 		 */
-		public function user_register_start( $params = array(), $headers = array() ) {
+		public static function user_register_start( $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
@@ -46,7 +46,7 @@ if( !class_exists( 'AuthArmorUsersMagicLinkEmail' ) ) {
 		 * the user through validate_magiclink_registration_token function.
 		 * You need to pass the registration_validation_token in parameters when you validate the user through the MagicLink Email method. 
 		 */
-		public function change_user_email_start( $user_id = '', $params = array(), $headers = array() ) {
+		public static function change_user_email_start( $user_id = '', $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$api_url = AUTHARMOR_API_URL.'/v3/users/'.$user_id.'/magiclink_email/update/start';
@@ -83,7 +83,7 @@ if( !class_exists( 'AuthArmorUsersMagicLinkEmail' ) ) {
 		 * @param    	$headers|array	 
 		 * @return 		$result|array
 		 */
-		public function create_magiclink_email_existing_user( $user_id = '', $params = array(), $headers = array() ) {
+		public static function create_magiclink_email_existing_user( $user_id = '', $params = array(), $headers = array() ) {
 
 			global $auth_armor_main;
 			$api_url = AUTHARMOR_API_URL.'/v3/users/'.$user_id.'/magiclink_email/register/start';
@@ -118,7 +118,7 @@ if( !class_exists( 'AuthArmorUsersMagicLinkEmail' ) ) {
 		 * @param    	$params|array
 		 * @return 		$result|array
 		 */
-		public function validate_magiclink_registration_token( $params = array() ) {
+		public static function validate_magiclink_registration_token( $params = array() ) {
 
 			global $auth_armor_main;
 			$args = array();
